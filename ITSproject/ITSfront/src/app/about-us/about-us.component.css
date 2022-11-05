@@ -1,0 +1,85 @@
+body{
+    background-color: #1D203E;
+    font-family: 'Roboto Slab Regular';
+    color: white;
+    padding-bottom: 130px;
+}
+
+h1{
+    color: #EF924F;
+    font-size: 30px;
+    text-align: center;
+    letter-spacing: 1px;
+    padding-top: 65px;
+    padding-bottom: 52px;
+}
+
+.container{
+    width: 100%;
+    margin-left: 120px;
+    margin-right: 120px;
+    margin: auto;
+    padding: 0;
+}
+
+.info{
+    border: 3px solid #EF924F;
+    border-radius: 70px;
+    margin-bottom: 90px;
+}
+
+.info img{
+    width: 318px;
+    height: 340px;
+    margin-top: 65px;
+    margin-left: 60px;
+    border-radius: 42px;
+}
+
+.text p{
+    /* width: 605px; */
+    font-size: 16px;
+    margin-top: 45px;
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-bottom: 65px;
+    line-height: 25px;
+    text-align: justify;
+    letter-spacing: 1px;
+}
+
+h3{
+    font-size: 20px;
+    letter-spacing: 1px;
+    margin-top: 65px;
+    margin-left: 60px;
+    margin-right: 60px;
+    line-height: 26.38px;
+    text-align: justify;
+}
+
+.info p{
+    font-size: 16px;
+    margin-left: 60px;
+    margin-bottom: 62px;
+    line-height: 25px;
+    text-align: justify;
+    letter-spacing: 1px;
+}
+
+.info p a{
+    color: white;
+}
+
+.Nadya{
+    margin-right: 60px;
+    margin-bottom: 50px;
+}
+
+.text-2{
+    margin-left: 90px;
+}
+
+/* .info-btm{
+    margin-bottom: 130px;
+} */

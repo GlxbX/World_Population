@@ -1,0 +1,59 @@
+/* body{
+    background-color: #1D203E;
+    font-family: 'Roboto Slab Regular';
+    color: white;
+}
+
+.container{
+    width: 100%;
+    margin-left: 120px;
+    margin-right: 120px;
+    margin: auto;
+    padding: 0;
+    padding-top: 70px;
+    
+}
+
+.info{
+    border: 3px solid #EF924F;
+    border-radius: 70px;
+    margin-bottom: 90px;
+}
+
+.info img{
+    width: 300px;
+    height: 340px;
+    margin-top: 65px;
+    margin-left: 70px;
+    border-radius: 42px;
+}
+
+.info p{
+    width: 711;
+    margin-top: 65px;
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-bottom: 65px;
+    line-height: 31px;
+    text-align: justify;
+    letter-spacing: 1px;
+}
+
+.info span{
+    color: #EF924F;
+    font-weight: bold;
+}
+
+h2{
+    color: #EF924F;
+    font-size: 25px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+@media screen and (max-width: 600px) {
+  .hidemobile {
+    visibility: hidden;
+    display: none;
+  }
+} */

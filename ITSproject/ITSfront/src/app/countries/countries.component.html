@@ -1,0 +1,175 @@
+
+    <section class="countries">
+        <div class="container visual">
+            <h1 class="countries__title">World Population in 1800-2021</h1>
+            <div>
+                <plotly-plot [data] = "parsed_data.data" [layout] = "parsed_data.layout"></plotly-plot>
+                <ngx-slider [(value)]="value" [options]="options" (userChange)="updateGeomap()"></ngx-slider>
+                Population in: {{value}}
+            </div>
+            <h1 class="countries__title table_title">IPAD index value in a particular year</h1>
+            <section class="section__table">
+                <div class="table__container">
+                    <div class="settings">
+                        <div class="settings__year">
+                            <label for="year" class="settings__label">Year:</label>
+                            <div class="select__wrapper">
+                                <select [(ngModel)]="selected" (change)="refreshTable(selected)" name="year" id="year" type="select"
+                                    class="input__select" style="color: white;
+                                    background-color: #1d203e;">
+                                    <option value="2017">2017</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2014">2014</option>
+                                    <option value="2013">2013</option>
+                                    <option value="2012">2012</option>
+                                    <option value="2011">2011</option>
+                                    <option value="2010">2010</option>
+                                    <option value="2009">2009</option>
+                                    <option value="2008">2008</option>
+                                    <option value="2007">2007</option>
+                                    <option value="2006">2006</option>
+                                    <option value="2005">2005</option>
+                                    <option value="2004">2004</option>
+                                    <option value="2003">2003</option>
+                                    <option value="2002">2002</option>
+                                    <option value="2001">2001</option>
+                                    <option value="2000">2000</option>
+                                </select>
+                            </div>
+                            <!-- style="-webkit-appearance: none;" -->
+                        </div>
+                        <div class="settings__search">
+                            <label for="search" class="settings__label">Search:</label>
+                            <input type="text" class="input__search" id="search" name="search" [(ngModel)]="CountryNameFilter" (keyup)="searchCountry()" >
+                            
+                        </div>
+                    </div>
+        
+                    <div class="table__wrapper">
+                        <table class="tg">
+                            <thead>
+                                <tr>
+                                    <th class="tg-yym1" style="vertical-align: middle;">
+                                        <div class="table__item">
+                                            Country
+                                            <!-- <button type="button" class="btn "
+                                                                    (click)="sortResult('country',true)">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-caret-up-square-fill" viewBox="0 0 16 16">
+                                                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4 9h8a.5.5 0 0 0 .374-.832l-4-4.5a.5.5 0 0 0-.748 0l-4 4.5A.5.5 0 0 0 4 11z"/>
+                                                                      </svg>
+                            </button>
+                            <button type="button" class="btn"
+                                                (click)="sortResult('country',false)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-caret-down-square-fill" viewBox="0 0 16 16">
+                                                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4 4a.5.5 0 0 0-.374.832l4 4.5a.5.5 0 0 0 .748 0l4-4.5A.5.5 0 0 0 12 6H4z"/>
+                                                  </svg>
+                            </button> -->
+                                        </div>
+                                    </th>
+                                    <th class="tg-yym1" style="vertical-align: middle;">
+                                        <div class="table__item">
+                                            Score
+                                            <!-- <button type="button" class="btn "
+                                                                    (click)="sortResult('score',true)">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-caret-up-square-fill" viewBox="0 0 16 16">
+                                                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4 9h8a.5.5 0 0 0 .374-.832l-4-4.5a.5.5 0 0 0-.748 0l-4 4.5A.5.5 0 0 0 4 11z"/>
+                                                                      </svg>
+                            </button>
+                            <button type="button" class="btn"
+                                                (click)="sortResult('score',false)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-caret-down-square-fill" viewBox="0 0 16 16">
+                                                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4 4a.5.5 0 0 0-.374.832l4 4.5a.5.5 0 0 0 .748 0l4-4.5A.5.5 0 0 0 12 6H4z"/>
+                                                  </svg>
+                            </button> -->
+                                        </div>
+                                    </th>
+                                    <th class="tg-yym1" style="vertical-align: middle;">
+                                        <div class="table__item">
+                                            Annual Change
+                                            <!-- <button type="button" class="btn "
+                                                                    (click)="sortResult('annual',true)">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-caret-up-square-fill" viewBox="0 0 16 16">
+                                                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4 9h8a.5.5 0 0 0 .374-.832l-4-4.5a.5.5 0 0 0-.748 0l-4 4.5A.5.5 0 0 0 4 11z"/>
+                                                                      </svg>
+                            </button>
+                            <button type="button" class="btn"
+                                                (click)="sortResult('annual',false)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-caret-down-square-fill" viewBox="0 0 16 16">
+                                                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4 4a.5.5 0 0 0-.374.832l4 4.5a.5.5 0 0 0 .748 0l4-4.5A.5.5 0 0 0 12 6H4z"/>
+                                                  </svg>
+                            </button> -->
+                                        </div>
+                                    </th>
+                                    <th class="tg-yym1" style="vertical-align: middle;">
+                                        <div class="table__item">
+                                            Global Rank
+                                            <button type="button" class="btn" 
+                                                                    (click)="sortResult('rank',true)">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-caret-up-square-fill" viewBox="0 0 16 16">
+                                                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4 9h8a.5.5 0 0 0 .374-.832l-4-4.5a.5.5 0 0 0-.748 0l-4 4.5A.5.5 0 0 0 4 11z"/>
+                                                                      </svg>
+                            </button>
+                            <button type="button" class="btn"
+                                                (click)="sortResult('rank',false)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-caret-down-square-fill" viewBox="0 0 16 16">
+                                                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4 4a.5.5 0 0 0-.374.832l4 4.5a.5.5 0 0 0 .748 0l4-4.5A.5.5 0 0 0 12 6H4z"/>
+                                                  </svg>
+                            </button>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor = "let item of table_data | paginate: {itemsPerPage:10, currentPage: page, totalItems: totalLenght}" >
+                                    <td class="tg-yym1">
+                                        <div class="table__item">
+                                            {{item.country}}
+                                        </div>
+                                    </td>
+                                    <td class="tg-yym1">
+                                        <div class="table__item">
+                                            {{item.score}}
+                                        </div>
+                                    </td>
+                                    <td class="tg-yym1">
+                                        <div class="table__item">
+                                            {{item.annual}}
+                                        </div>
+                                    </td>
+                                    <td class="tg-yym1">
+                                        <div class="table__item">
+                                            {{item.rank}}
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- <pagination-controls (pageChange)="page = $event"></pagination-controls> -->
+                               
+                            </tbody>
+                        </table>
+                    </div>
+        
+                    <div class="table__paginations">
+                        <pagination-controls class="pagination" (pageChange)="page = $event"></pagination-controls>
+                    </div>
+                    
+                </div>
+            </section>
+            <h1 class="countries__title">Find out IETS (Index of External Technological Specialization) value of countries in selected year </h1>
+            <div class="treemap"  style="height:571px; overflow-y:hidden">
+                <iframe title="its_1" width="1040" height="611.25" src="https://app.powerbi.com/reportEmbed?reportId=38ed3d9b-e9e1-445c-bbbd-a279da7dafa8&autoAuth=true&actionBarEnabled=false&ctid=30b86380-7ee9-41a2-afbf-dd87752f1db1&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXdlc3QtZXVyb3BlLWUtcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+             
+            </div>
+            <h1 class="countries__title new-vis">Find out where countries patented selected technology in particular year </h1>
+            <div class="treemap" style="height:571px; overflow-y:hidden">
+                <iframe title="its_2" width="1040" height="611.25" src="https://app.powerbi.com/reportEmbed?reportId=71fef13e-d0a6-4f1e-a497-7b1eddde9db1&autoAuth=true&ctid=30b86380-7ee9-41a2-afbf-dd87752f1db1&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXdlc3QtZXVyb3BlLWUtcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+            
+            </div>
+            <h1 class="countries__title">Find out which countries specialized on specific technology in selected year </h1>
+            <div class="treemap last-vis" style="height:571px; overflow-y:hidden">
+                <iframe title="its" width="1040" height="611.25" src="https://app.powerbi.com/reportEmbed?reportId=0219d422-bcec-44b7-81a3-23f41607ecbe&autoAuth=true&ctid=30b86380-7ee9-41a2-afbf-dd87752f1db1&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXdlc3QtZXVyb3BlLWUtcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+               
+            </div>
+        </div>
+    </section>
+

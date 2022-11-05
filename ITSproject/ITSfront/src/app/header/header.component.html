@@ -1,0 +1,86 @@
+
+  <header class="header">
+      <div class="container">
+          <div class="header__wrapper">
+              <div class="header__logo">
+                  <a href="" class="logo">Patent Analytics Tool</a>
+              </div>
+              <nav class="header__nav">
+                  <ul class="header__list">
+                      <li class="nav__item"> <a routerLink="" class="nav__link">Main</a> </li>
+                      <li class="nav__item"> <a routerLink="/research" class="nav__link">Research</a></li>
+                      <li class="nav__item"> <a routerLink="/countries" class="nav__link">Countries</a></li>
+                      <li class="nav__item"> <a routerLink="/about" class="nav__link">About</a></li>
+                  </ul>
+                  <div class="hamburger-menu">
+                      <input id="menu__toggle" type="checkbox" />
+                      <label class="menu__btn" for="menu__toggle">
+                          <span></span>
+                      </label>
+
+                      <ul class="menu__box">
+                          <li>
+                              <a class="menu__item" routerLink="/research">Research</a>
+                          </li>
+                          <li><a class="menu__item" routerLink="/countries">Countries</a></li>
+                          <li>
+                              <a class="menu__item" routerLink="/about">About</a>
+                          </li>
+                          <li>
+                              <a data-modal="#login__popup" class="menu__item" href="/faq">Sign in</a>
+                          </li>
+                          <li>
+                              <a data-modal="#register__popup" class="menu__item" href="/faq">Sign up</a>
+                          </li>
+
+
+                      </ul>
+                  </div>
+              </nav>
+              <div class="header__login">
+                <button type="button" class="btn login__text" (click)="openLogin()">Login</button>
+                <button type="button" class="btn login__text white" (click)="openRegister()">Register</button>
+              <!-- <a data-modal="#login__popup" href="/" class="login__text">Login</a> -->
+              <!-- <a data-modal="#register__popup" href="/" class="login__text white">Sign up</a> -->
+          </div>
+          </div>
+      </div>
+  </header>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog popup__wrapper">
+        <div class="modal-content" style="background-color:#1d203e;border: 0;">
+        <button class="popup__close" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i></button>
+        <div class="popup__title">
+            Sign in
+        </div>
+        <div class="popup__form">
+            <form [formGroup]="loginform" (ngSubmit)="OnLogin()" class="form">
+                <input name="email" type="text" id="input__email" placeholder="username" class="popup__input" formControlName="username">
+                <input type='password' id="input__tel" placeholder="password:" class="popup__input" formControlName="password">
+                <button type="submit" class="form__btn lang" key="form__btn">Login</button>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModal1Label">
+    <div class="modal-dialog popup__wrapper">
+        <div class="modal-content" style="background-color:#1d203e ; border: 0;">
+        <button class="popup__close"><i class="fas fa-times-circle"></i></button>
+        <div class="popup__title">
+            Sign up
+        </div>
+        <div class="popup__form">
+            <form [formGroup]="regform" (ngSubmit)="OnReg()" class="form">
+                <input name="username" type="text" id="input__email" placeholder="username" class="popup__input" formControlName="username">
+                <input name="email" type="text" id="input__email" placeholder="email" class="popup__input" formControlName="email">
+                <input type='password' id="input__tel" placeholder="password:" class="popup__input" formControlName="password">
+                <input type='password' id="input__tel" placeholder="confirm password:" class="popup__input"  formControlName="confirm_password" >
+                <button type="submit" class="form__btn lang" key="form__btn">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
