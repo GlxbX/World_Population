@@ -29,9 +29,6 @@ export class CountriesComponent implements OnInit {
     ceil: 2021
   };
 
-  
-
-
 
 
   table_data_withoutFilter:any=[];
@@ -41,7 +38,7 @@ export class CountriesComponent implements OnInit {
   ngOnInit(): void {
     this.refreshGeomap();
     // this.refreshTable(this.selected);
-    this.totalLenght = this.table_data.lenght;
+    // this.totalLenght = this.table_data.lenght;
   }
 
 
@@ -61,15 +58,12 @@ export class CountriesComponent implements OnInit {
       
       this.row_data = data;
       this.mid_data = JSON.parse(this.row_data);
-      this.parsed_data = JSON.parse(this.mid_data[this.value-1800]);
+      // this.parsed_data = JSON.parse(this.mid_data[this.value-1800]);
       
     });
   }
 
-  updateGeomap(){
-    this.parsed_data = JSON.parse(this.mid_data[this.value-1800])
-
-  }
+  
 
 
   refreshTable(year:number){

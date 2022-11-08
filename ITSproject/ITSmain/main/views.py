@@ -4,26 +4,30 @@ import pandas as pd
 from requests import request
 from django.http.response import JsonResponse
 import json
+from .models import Population_by_countries as PBC
+
 
 def IpadGeoMapView(request):
     def get_steps():
         steps = []
-        for i in range(len(data_slider)):
+        for i in range(222):
             step = dict(method='restyle',
-                args=['visible', [False] * len(data_slider)],
-                label=i + 1800)
+                args=[{  'z': [df[i + 1800]] }],
+                label=i + 1800,
+                )
 
-            step['args'][1][i] = True
             steps.append(step)
+      
 
 
         return steps
 
-    #SQLquery
-    qry = 'SELECT main_population_by_countries.country_name, main_population_by_countries.code, main_population_by_countries.year, main_population_by_countries.data from main_population_by_countries'
 
-    #Dataframe
-    df = pd.read_sql_query(qry, connection)
+    df = pd.DataFrame(list(PBC.objects.all().values()))
+
+    df = df.pivot_table('data', ['country_name', 'code'], 'year')
+
+    df.reset_index( drop=False, inplace=True )
 
     scl = [ 
             [0, '#ffffff'],
@@ -36,34 +40,52 @@ def IpadGeoMapView(request):
             [1, '#008000'],
             ]
 
-    year = 1800
-    data_slider = []
-    for year in df['year'].unique():
+    # year = 1800
+    # data_slider = []
+    # for year in df['year'].unique():
    
-        df_segmented =  df[(df['year']== year)]
+    #     df_segmented =  df[(df['year']== year)]
 
         
-        high = df_segmented['data'].sort_values(ascending=False).iloc[0]
+    #     high = df_segmented['data'].sort_values(ascending=False).iloc[0]
        
-        data_each_yr = dict(
-                        type='choropleth',
-                        locations = df_segmented['code'],
-                        z=df_segmented['data'],
-                        locationmode='ISO-3',
-                        colorscale = scl,
-                        autocolorscale=False,
-                        colorbar = dict(title_text='Population',
-                                        title_font_color = 'white',
-                                        len=400,
-                                        lenmode='pixels',
-                                        tickfont_color='white',
-                                        tickmode = 'array',
-                                        tickvals = [i for i in range(0,high,100*10**6)]
-                                                                                    ))
+    #     data_each_yr = dict(
+    #                     type='choropleth',
+    #                     locations = df_segmented['code'],
+    #                     z=df_segmented['data'],
+    #                     locationmode='ISO-3',
+    #                     colorscale = scl,
+    #                     autocolorscale=False,
+    #                     colorbar = dict(title_text='Population',
+    #                                     title_font_color = 'white',
+    #                                     len=400,
+    #                                     lenmode='pixels',
+    #                                     tickfont_color='white',
+    #                                     tickmode = 'array',
+    #                                     tickvals = [i for i in range(0,high,100*10**6)]
+    #                                                                                 ))
                      
 
-        data_slider.append(data_each_yr)
+    #     data_slider.append(data_each_yr)
 
+    data = dict(
+        type = 'choropleth', 
+    locations = df['code'], 
+    locationmode = 'ISO-3', 
+    colorscale = scl, 
+    autocolorscale=False,
+    text = df['country_name'], 
+    z = df[1800], 
+    colorbar = {'title_text':'Population', 'title_font_color':'white', 'len':400, 'lenmode':'pixels','tickfont_color':'white'},
+    )
+
+
+
+    sliders = [dict(active=0,
+                        currentvalue={"prefix": "Population in "},
+                        pad={"t": 50},
+                        steps=get_steps(),
+                        font={'color':'white'}) ]
 
    
     layout = dict(
@@ -77,12 +99,13 @@ def IpadGeoMapView(request):
         height = 635,
         width = 1488,
         margin ={'l':115,'r':0,'b':50,'t':50},
+        sliders=sliders
         ) 
 
-    f = [gobj.Figure(data=data_slider[i],layout=layout).to_json() for i in range(221)]
+    # f = [gobj.Figure(data=data_slider[i],layout=layout).to_json() for i in range(221)]
     
-    geomap = gobj.Figure(data=data_slider, layout=layout).to_json() 
+    geomap = gobj.Figure(data=data, layout=layout).to_json() 
 
 
     if request.method == 'GET':
-        return JsonResponse(json.dumps(f), safe=False)
+        return JsonResponse(geomap, safe=False)

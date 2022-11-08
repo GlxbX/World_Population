@@ -3,9 +3,8 @@
         <div class="container visual">
             <h1 class="countries__title">World Population in 1800-2021</h1>
             <div>
-                <plotly-plot [data] = "parsed_data.data" [layout] = "parsed_data.layout"></plotly-plot>
-                <ngx-slider [(value)]="value" [options]="options" (userChange)="updateGeomap()"></ngx-slider>
-                Population in: {{value}}
+                <plotly-plot [data] = "mid_data.data" [layout] = "mid_data.layout"></plotly-plot>
+               
             </div>
             <h1 class="countries__title table_title">IPAD index value in a particular year</h1>
             <section class="section__table">

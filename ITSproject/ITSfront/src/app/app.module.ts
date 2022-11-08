@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
 import { FooterComponent } from './footer/footer.component';
-import { NgxSliderModule } from '@angular-slider/ngx-slider';
+
 PlotlyModule.plotlyjs = PlotlyJS;
 
 
@@ -40,7 +40,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    NgxSliderModule,
+
 
   ],
   providers: [SharedService],
