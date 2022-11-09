@@ -15,21 +15,17 @@ export class CountriesComponent implements OnInit {
   totalLenght:any;
   page:number=1;
 
-  selected:any = 2017;
+  selected:any = 2021;
 
   row_data:any=[];
   mid_data: any=[];
-  parsed_data: any =[];
-  
- 
 
+  
   value: any = 1800;
   options: any = {
     floor: 1800,
     ceil: 2021
   };
-
-
 
   table_data_withoutFilter:any=[];
   row_table_data:any=[];
@@ -37,11 +33,9 @@ export class CountriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshGeomap();
-    // this.refreshTable(this.selected);
-    // this.totalLenght = this.table_data.lenght;
+    this.refreshTable(this.selected);
+    this.totalLenght = this.table_data.lenght;
   }
-
-
 
   searchCountry(){
     var CountryNameFilter =this.CountryNameFilter;
@@ -52,18 +46,15 @@ export class CountriesComponent implements OnInit {
     });
   }
   
-
   refreshGeomap(){
     this.service.getGeoMap().subscribe(data=>{
       
       this.row_data = data;
       this.mid_data = JSON.parse(this.row_data);
-      // this.parsed_data = JSON.parse(this.mid_data[this.value-1800]);
+  
       
     });
   }
-
-  
 
 
   refreshTable(year:number){

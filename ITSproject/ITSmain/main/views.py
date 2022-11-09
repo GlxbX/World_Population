@@ -40,33 +40,7 @@ def IpadGeoMapView(request):
             [1, '#008000'],
             ]
 
-    # year = 1800
-    # data_slider = []
-    # for year in df['year'].unique():
-   
-    #     df_segmented =  df[(df['year']== year)]
-
-        
-    #     high = df_segmented['data'].sort_values(ascending=False).iloc[0]
-       
-    #     data_each_yr = dict(
-    #                     type='choropleth',
-    #                     locations = df_segmented['code'],
-    #                     z=df_segmented['data'],
-    #                     locationmode='ISO-3',
-    #                     colorscale = scl,
-    #                     autocolorscale=False,
-    #                     colorbar = dict(title_text='Population',
-    #                                     title_font_color = 'white',
-    #                                     len=400,
-    #                                     lenmode='pixels',
-    #                                     tickfont_color='white',
-    #                                     tickmode = 'array',
-    #                                     tickvals = [i for i in range(0,high,100*10**6)]
-    #                                                                                 ))
-                     
-
-    #     data_slider.append(data_each_yr)
+    
 
     data = dict(
         type = 'choropleth', 
@@ -80,14 +54,13 @@ def IpadGeoMapView(request):
     )
 
 
-
     sliders = [dict(active=0,
                         currentvalue={"prefix": "Population in "},
                         pad={"t": 50},
                         steps=get_steps(),
                         font={'color':'white'}) ]
 
-   
+
     layout = dict(
         geo = {
         'scope':'world','showframe':True,
@@ -96,16 +69,19 @@ def IpadGeoMapView(request):
         'bgcolor':'LightBlue'
         },
         paper_bgcolor='rgb(29,32,62)',
+        
         height = 635,
         width = 1488,
         margin ={'l':115,'r':0,'b':50,'t':50},
         sliders=sliders
         ) 
 
-    # f = [gobj.Figure(data=data_slider[i],layout=layout).to_json() for i in range(221)]
     
     geomap = gobj.Figure(data=data, layout=layout).to_json() 
 
 
     if request.method == 'GET':
         return JsonResponse(geomap, safe=False)
+
+
+        
