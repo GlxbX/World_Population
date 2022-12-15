@@ -5,80 +5,99 @@ from requests import request
 from django.http.response import JsonResponse
 import json
 from .models import Population_by_countries as PBC
+from abc import ABCMeta, abstractmethod
 
 
-def IpadGeoMapView(request):
-    def get_steps():
+class PlotlyChart(metaclass=ABCMeta):
+    def __init__(self, model):
+        pass
+
+    @abstractmethod
+    def construct_data(self):
+        pass
+
+    @abstractmethod
+    def construct_layout(self):
+        pass
+
+    @abstractmethod
+    def get_final_chart_in_json(self):
+        pass
+
+class GeomapChart(PlotlyChart):
+    def __init__(self,model):
+        self._model = model
+        self._df = pd.DataFrame(list(self._model.objects.all().values()))
+        self._df = self._df.pivot_table('data', ['country_name', 'code'], 'year')
+        self._df.reset_index( drop=False, inplace=True )
+
+    def construct_data(self):
+        scl = [ 
+                [0, '#ffffff'],
+                [0.002, '#eefbe9'],
+                [0.0066, '#def6d5'],
+                [0.02, '#cef0c2'],
+                [0.066, '#b0e59f'],
+                [0.2, '#94d881'],
+                [0.66, '#6dc35a'],
+                [1, '#008000'],
+                ]
+
+        data = dict(
+            type = 'choropleth', 
+        locations = self._df['code'], 
+        locationmode = 'ISO-3', 
+        colorscale = scl, 
+        autocolorscale=False,
+        text = self._df['country_name'], 
+        z = self._df[1800], 
+        colorbar = {'title_text':'Population', 'title_font_color':'white', 'len':400, 'lenmode':'pixels','tickfont_color':'white'},
+        )
+        return data
+
+    def construct_layout(self):
+        sliders = [dict(active=0,
+                        currentvalue={"prefix": "Population in "},
+                        pad={"t": 50},
+                        steps=self.get_steps(),
+                        font={'color':'white'}) ]
+
+        layout = dict(
+            geo = {
+            'scope':'world','showframe':True,
+            'showcoastlines':True,
+            'projection_type':'equirectangular',
+            'bgcolor':'LightBlue'
+            },
+            paper_bgcolor='rgb(29,32,62)',
+            
+            height = 635,
+            width = 1488,
+            margin ={'l':115,'r':0,'b':50,'t':50},
+            sliders=sliders
+            ) 
+        return layout
+    
+    def get_final_chart_in_json(self):
+        geomap = gobj.Figure(data=self.construct_data(), layout=self.construct_layout()).to_json()
+        return geomap
+
+    def get_steps(self):
         steps = []
         for i in range(222):
             step = dict(method='restyle',
-                args=[{  'z': [df[i + 1800]] }],
+                args=[{  'z': [self._df[i + 1800]] }],
                 label=i + 1800,
                 )
 
             steps.append(step)
-      
-
-
         return steps
 
 
-    df = pd.DataFrame(list(PBC.objects.all().values()))
+def IpadGeoMapView(request):
 
-    df = df.pivot_table('data', ['country_name', 'code'], 'year')
-
-    df.reset_index( drop=False, inplace=True )
-
-    scl = [ 
-            [0, '#ffffff'],
-            [0.002, '#eefbe9'],
-            [0.0066, '#def6d5'],
-            [0.02, '#cef0c2'],
-            [0.066, '#b0e59f'],
-            [0.2, '#94d881'],
-            [0.66, '#6dc35a'],
-            [1, '#008000'],
-            ]
-
-    
-
-    data = dict(
-        type = 'choropleth', 
-    locations = df['code'], 
-    locationmode = 'ISO-3', 
-    colorscale = scl, 
-    autocolorscale=False,
-    text = df['country_name'], 
-    z = df[1800], 
-    colorbar = {'title_text':'Population', 'title_font_color':'white', 'len':400, 'lenmode':'pixels','tickfont_color':'white'},
-    )
-
-
-    sliders = [dict(active=0,
-                        currentvalue={"prefix": "Population in "},
-                        pad={"t": 50},
-                        steps=get_steps(),
-                        font={'color':'white'}) ]
-
-
-    layout = dict(
-        geo = {
-        'scope':'world','showframe':True,
-        'showcoastlines':True,
-        'projection_type':'equirectangular',
-        'bgcolor':'LightBlue'
-        },
-        paper_bgcolor='rgb(29,32,62)',
-        
-        height = 635,
-        width = 1488,
-        margin ={'l':115,'r':0,'b':50,'t':50},
-        sliders=sliders
-        ) 
-
-    
-    geomap = gobj.Figure(data=data, layout=layout).to_json() 
-
+    Chart = GeomapChart(PBC)
+    geomap = Chart.get_final_chart_in_json()
 
     if request.method == 'GET':
         return JsonResponse(geomap, safe=False)
