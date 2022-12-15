@@ -3,5 +3,6 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.IpadGeoMapView),
+    path('geomap', views.IpadGeoMapView),
+    path('worldline', views.WorldLineChartView),
 ]

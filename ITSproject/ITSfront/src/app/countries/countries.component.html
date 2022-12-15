@@ -3,7 +3,10 @@
         <div class="container visual">
             <h1 class="countries__title">World Population in 1800-2021</h1>
             <div>
-                <plotly-plot [data] = "mid_data.data" [layout] = "mid_data.layout"  ></plotly-plot>
+                <plotly-plot [data] = "mid_data_geomap.data" [layout] = "mid_data_geomap.layout"  ></plotly-plot>
+            </div>
+            <div>
+                <plotly-plot [data] = "mid_data_wlc.data" [layout] = "mid_data_wlc.layout"  ></plotly-plot>
             </div>
             <h1 class="countries__title table_title">Population by countries in particular year</h1>
             <section class="section__table">

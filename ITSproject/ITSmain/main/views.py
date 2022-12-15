@@ -5,6 +5,7 @@ from requests import request
 from django.http.response import JsonResponse
 import json
 from .models import Population_by_countries as PBC
+from .models import World_population as WP
 from abc import ABCMeta, abstractmethod
 
 
@@ -93,6 +94,34 @@ class GeomapChart(PlotlyChart):
             steps.append(step)
         return steps
 
+class WorldLineChart(PlotlyChart):
+    def __init__(self,model):
+        self._model = model
+        self._df = pd.DataFrame(list(self._model.objects.all().values()))
+
+
+    def construct_data(self):
+        x_data = self._df['year']
+        y_data = self._df['data']
+        data = dict(
+            x=x_data,y=y_data
+        )
+        return data
+
+    def construct_layout(self):
+        layout = dict(
+            title='World population 1800-2021',
+            xaxis_title='Year',
+            yaxis_title='Population'
+        )
+        return layout
+
+   
+    def get_final_chart_in_json(self):
+        world_line_chart = gobj.Figure(data=self.construct_data(), layout=self.construct_layout()).to_json()
+        return world_line_chart
+
+
 
 def IpadGeoMapView(request):
 
@@ -102,5 +131,11 @@ def IpadGeoMapView(request):
     if request.method == 'GET':
         return JsonResponse(geomap, safe=False)
 
+def WorldLineChartView(request):
 
+    Chart = WorldLineChart(WP)
+    world_line_chart = Chart.get_final_chart_in_json()
+
+    if request.method == 'GET':
+        return JsonResponse(world_line_chart, safe=False)
         

@@ -17,10 +17,16 @@ export class CountriesComponent implements OnInit {
 
   selected:any = 2021;
 
-  row_data:any=[];
-  mid_data: any=[];
+  /*geomap*/
+  row_data_geomap:any=[];
+  mid_data_geomap: any=[];
 
-  
+  /*world linechart */
+  row_data_wlc:any=[];
+  mid_data_wlc: any=[];
+
+
+
   value: any = 1800;
   options: any = {
     floor: 1800,
@@ -33,6 +39,7 @@ export class CountriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshGeomap();
+    this.refreshWorldLineChart()
     this.refreshTable(this.selected);
     this.totalLenght = this.table_data.lenght;
   }
@@ -49,8 +56,17 @@ export class CountriesComponent implements OnInit {
   refreshGeomap(){
     this.service.getGeoMap().subscribe(data=>{
       
-      this.row_data = data;
-      this.mid_data = JSON.parse(this.row_data);
+      this.row_data_geomap = data;
+      this.mid_data_geomap = JSON.parse(this.row_data_geomap);
+  
+      
+    });
+  }
+  refreshWorldLineChart(){
+    this.service.getWorldLineChart().subscribe(data=>{
+      
+      this.row_data_wlc = data;
+      this.mid_data_wlc = JSON.parse(this.row_data_wlc);
   
       
     });

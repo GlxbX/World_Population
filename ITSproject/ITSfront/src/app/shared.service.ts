@@ -22,7 +22,11 @@ export class SharedService {
   constructor(private http: HttpClient) { }
 
   getGeoMap():Observable<{}>{
-    return this.http.get<any[]>(this.APIUrl + '/geomap/');
+    return this.http.get<any[]>(this.APIUrl + '/charts/geomap');
+  }
+
+  getWorldLineChart():Observable<{}>{
+    return this.http.get<any[]>(this.APIUrl + '/charts/worldline');
   }
 
   getTable(value: any):Observable<any[]>{

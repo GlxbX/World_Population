@@ -11,7 +11,14 @@ class Population_by_countries(models.Model):
     year = models.IntegerField(verbose_name='Год')
 
     data = models.BigIntegerField(verbose_name="Люди")
+
+        
         
 
 
+class World_population(models.Model):
+
+    year = models.IntegerField(verbose_name='Год')
+
+    data = models.BigIntegerField(verbose_name="Люди")
    
