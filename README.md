@@ -2,10 +2,10 @@
 Pet project about data visualizations
 
 
-
 ### Features
 * Interactive data visualisatinos
-
+* Authorisation
+* Authentification
 
 
 ### Technologies used:
